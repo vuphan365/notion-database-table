@@ -8,6 +8,7 @@ import {
   Updater,
   useReactTable,
 } from '@tanstack/react-table';
+import { Reorder, AnimatePresence } from 'framer-motion';
 import BaseTable from '@/components/Table';
 
 type Person = {
@@ -50,6 +51,7 @@ const columnHelper = createColumnHelper<Person>();
 
 const columns = [
   columnHelper.accessor('firstName', {
+    id: 'firstName',
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
   }),
@@ -61,19 +63,23 @@ const columns = [
   }),
   columnHelper.accessor('age', {
     header: () => 'Age',
+    id: 'age',
     cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor('visits', {
+    id: 'visits',
     header: () => <span>Visits</span>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor('status', {
+    id: 'status',
     header: 'Status',
     footer: (info) => info.column.id,
     enableSorting: true,
   }),
   columnHelper.accessor('progress', {
+    id: 'progress',
     header: 'Profile Progress',
     footer: (info) => info.column.id,
   }),
@@ -81,6 +87,7 @@ const columns = [
 
 function App() {
   const [count, setCount] = useState(0);
+
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: 'status',
@@ -99,13 +106,15 @@ function App() {
     // return value
   };
   return (
-    <div className="w-full p-16 flex justify-center">
+    <div className="w-full p-16 flex">
       <BaseTable<Person>
         data={defaultData}
         columns={columns}
         manualSorting
         onSortingChange={onSort}
         state={{ sorting }}
+        reorderable
+        resizable
       />
     </div>
   );
