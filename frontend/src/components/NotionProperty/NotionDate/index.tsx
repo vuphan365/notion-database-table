@@ -1,6 +1,6 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
-import { DateProperty } from '../types';
+import { DateProperty } from '@/types/notion';
 import NotionText from '../NotionText';
 
 const NotionDate: React.FC<{

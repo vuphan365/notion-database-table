@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CheckboxProperty } from '../types';
+import { CheckboxProperty } from '@/types/notion';
 
 import CheckIcon from './check';
 

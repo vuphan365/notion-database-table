@@ -31,14 +31,13 @@ const BaseTable = <T extends object>({
   resizable,
   reorderable,
   loading,
-  defaultRow = 5,
 }: BaseTableProps<T>) => {
   const [columnOrder, setColumnOrder] = useState<Array<string>>(
     columns?.map((col) => col?.id as string) || []
   );
 
   const table = useReactTable<T>({
-    data: loading ? Array(defaultRow).fill({}) : data,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange,
@@ -90,7 +89,7 @@ const BaseTable = <T extends object>({
                     className={reorderable ? 'cursor-grab' : ''}
                   >
                     <div
-                      className="cursor-pointer select-none flex gap-4 w-fit"
+                      className="cursor-pointer select-none flex gap-2 w-fit"
                       onClick={header.column.getToggleSortingHandler()}
                       title={
                         header.column.getCanSort()
@@ -102,15 +101,14 @@ const BaseTable = <T extends object>({
                           : undefined
                       }
                     >
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted() as string] ?? null}
-
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                      {{
+                        asc: ' 🔼',
+                        desc: ' 🔽',
+                      }[header.column.getIsSorted() as string] ?? null}
                     </div>
                   </Reorder.Item>
                 )}

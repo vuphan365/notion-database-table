@@ -7,8 +7,8 @@ import {
   RichTextProperty,
   SelectProperty,
   TitleProperty,
-} from './types';
-import { convertRichText } from './utils/notion-utils';
+} from '@/types/notion';
+import { convertRichText } from './utils';
 import NotionText from './NotionText';
 import NotionSelect from './NotionSelect';
 import NotionDate from './NotionDate';

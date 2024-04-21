@@ -1,13 +1,42 @@
 import * as notion from 'notion-types';
 
-import * as types from '../types';
+import type { Client } from '@notionhq/client';
+
+type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+export type PartialPage = Awaited<
+  ReturnType<InstanceType<typeof Client>['pages']['retrieve']>
+>;
+
+export type Page = Extract<
+  Awaited<ReturnType<InstanceType<typeof Client>['pages']['retrieve']>>,
+  { url: string }
+>;
+
+export type PartialBlock = Awaited<
+  ReturnType<InstanceType<typeof Client>['blocks']['retrieve']>
+>;
+
+export type Block = Extract<PartialBlock, { type: string }>;
+
+export type BlockChildren = Awaited<
+  ReturnType<InstanceType<typeof Client>['blocks']['children']['list']>
+>['results'];
+
+export type RichText = Extract<
+  Block,
+  { type: 'paragraph' }
+>['paragraph']['rich_text'];
+export type RichTextItem = ArrayElement<RichText>;
+
 import { convertColor } from './convert-color';
 
-export function convertRichText(richText: types.RichText): notion.Decoration[] {
+export function convertRichText(richText: RichText): notion.Decoration[] {
   return richText.map(convertRichTextItem).filter(Boolean);
 }
 export function convertRichTextItem(
-  richTextItem: types.RichTextItem
+  richTextItem: RichTextItem
 ): notion.Decoration {
   const subdecorations: notion.SubDecoration[] = [];
 

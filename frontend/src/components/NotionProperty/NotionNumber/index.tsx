@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NumberProperty } from '../types';
+import { NumberProperty } from '@/types/notion';
 import NotionText from '../NotionText';
 
 const NotionNumber: React.FC<{

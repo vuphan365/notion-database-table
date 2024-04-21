@@ -2,26 +2,20 @@ import { useState } from 'react';
 import { SortingState, Updater } from '@tanstack/react-table';
 
 import BaseTable from '@/components/Table';
-import useData, { NotionRecordProperty } from '@/hooks/useData';
+import useData from '@/hooks/useData';
+import { NotionRecordProperty } from '@/types/notion';
 
 function App() {
-  const { columns, data, isLoading } = useData();
+  const [sorts, setSorting] = useState<SortingState>([]);
 
-  const [sorting, setSorting] = useState<SortingState>([
-    // {
-    //   id: 'status',
-    //   desc: true,
-    // },
-  ]);
+  const { columns, data, isLoading } = useData({ sorts });
 
   const onSort = (cb: Updater<SortingState>) => {
     if (typeof cb === 'function') {
       setSorting((prev) => {
-        const value = cb(prev) as any;
-        return value;
+        return cb(prev);
       });
     }
-    // return value
   };
 
   return (
@@ -31,11 +25,10 @@ function App() {
         columns={columns}
         manualSorting
         onSortingChange={onSort}
-        state={{ sorting }}
+        state={{ sorting: sorts }}
         reorderable
         resizable
         loading={isLoading}
-        defaultRow={5}
       />
     </div>
   );

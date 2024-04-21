@@ -1,11 +1,11 @@
 import * as React from 'react';
 import cl from 'classnames';
-import { SelectProperty } from '../types';
+import { SelectProperty } from '@/types/notion';
 
 const NotionSelect: React.FC<{
   data: SelectProperty;
 }> = ({ data }) => {
-  const { type, id } = data;
+  const { type } = data;
   let values = [];
   if (data?.type === 'select') {
     values = [data?.select];
