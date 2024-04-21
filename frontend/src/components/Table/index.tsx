@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   flexRender,
   getCoreRowModel,
@@ -9,6 +9,7 @@ import {
 import { Reorder } from 'framer-motion';
 
 import ResizeBar from '@/components/ResizeBar';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 interface BaseTableProps<T>
   extends Pick<
@@ -17,6 +18,8 @@ interface BaseTableProps<T>
   > {
   resizable?: boolean;
   reorderable?: boolean;
+  loading?: boolean;
+  defaultRow?: number;
 }
 
 const BaseTable = <T extends object>({
@@ -27,13 +30,15 @@ const BaseTable = <T extends object>({
   state,
   resizable,
   reorderable,
+  loading,
+  defaultRow = 5,
 }: BaseTableProps<T>) => {
-  const [items, setItems] = useState<Array<string>>(
+  const [columnOrder, setColumnOrder] = useState<Array<string>>(
     columns?.map((col) => col?.id as string) || []
   );
 
   const table = useReactTable<T>({
-    data,
+    data: loading ? Array(defaultRow).fill({}) : data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange,
@@ -42,22 +47,25 @@ const BaseTable = <T extends object>({
     columnResizeDirection: 'ltr',
     state: {
       ...(state || {}),
-      columnOrder: items,
+      columnOrder: columnOrder,
     },
   });
 
+  useEffect(() => {
+    const columnsIds = columns?.map((col) => col?.id as string) || [];
+    setColumnOrder(columnsIds);
+  }, [columns]);
+
   return (
-    <table
-      className={`w-full text-sm shadow-md sm:rounded-lg text-left rtl:text-right text-gray-500`}
-    >
+    <table className="border-collapse w-full text-sm shadow-md sm:rounded-lg text-left rtl:text-right text-gray-500">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50">
         {table.getHeaderGroups().map((headerGroup) => (
           <Reorder.Group
             as="tr"
             key={headerGroup.id}
             axis="x"
-            values={items}
-            onReorder={setItems}
+            values={columnOrder}
+            onReorder={setColumnOrder}
             draggable={false}
           >
             {headerGroup.headers.map((header) => (
@@ -66,7 +74,7 @@ const BaseTable = <T extends object>({
                 style={{
                   width: `${header.getSize()}px`,
                 }}
-                className={`px-6 py-3 relative`}
+                className={`px-6 py-3 relative border-b border-slate-300`}
               >
                 {header.isPlaceholder ? null : (
                   <Reorder.Item
@@ -118,9 +126,13 @@ const BaseTable = <T extends object>({
             {row.getVisibleCells().map((cell) => (
               <td
                 key={cell.id}
-                className={`px-6 py-4 w-[${cell.column.getSize()}px] `}
+                className={`px-6 py-4 w-[${cell.column.getSize()}px] border border-slate-300`}
               >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                {loading ? (
+                  <LoadingSkeleton />
+                ) : (
+                  flexRender(cell.column.columnDef.cell, cell.getContext())
+                )}
               </td>
             ))}
           </tr>
