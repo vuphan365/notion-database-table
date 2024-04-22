@@ -32,7 +32,7 @@ jobs:
       - name: Run build
         run: |
           touch .env.production
-          echo VITE_API_HOST=${{ env.VITE_API_HOST }} >> .env.production
+          echo VITE_API_HOST=${{ vars.VITE_API_HOST }} >> .env.production
           cat .env.production
           yarn run build
       - name: Deploy
