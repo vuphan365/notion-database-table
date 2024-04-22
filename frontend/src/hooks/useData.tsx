@@ -2,32 +2,23 @@ import { ColumnDef, SortingState } from '@tanstack/react-table';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { queryNotionDatabase } from '@/services/database';
-import cl from 'classnames';
 import NotionProperty from '@/components/NotionProperty';
-import { NotionRecordProperty, Property } from '@/types/notion';
+import { NotionRecordProperty, NotionDictionary } from '@/types/notion';
 import { useMemo } from 'react';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import { OperationByType, getDeepDataSource } from '@/utils/filter';
 
 interface UseDataValue {
   columns: ColumnDef<NotionRecordProperty>[];
   data: NotionRecordProperty[];
   isLoading: boolean;
+  dictionary: NotionDictionary;
 }
 
 interface UseDataParams {
   sorts: SortingState;
+  filter: string;
 }
-
-// const getColumnsAdditionalConfig = (
-//   property: Property
-// ): Partial<ColumnDef<NotionRecordProperty>> => {
-//   if (property?.type === 'number') {
-//     return {
-//       enableSorting: true,
-//     };
-//   }
-//   return { enableSorting: false };
-// };
 
 const defaultColumns = Array(5)
   .fill(null)
@@ -40,24 +31,42 @@ const defaultColumns = Array(5)
       } as unknown as ColumnDef<NotionRecordProperty>)
   );
 
-const useData = ({ sorts }: UseDataParams): UseDataValue => {
+const defaultDictionary = {};
+
+const useData = ({ sorts, filter }: UseDataParams): UseDataValue => {
+  const [dictionary, setDictionary] =
+    useState<NotionDictionary>(defaultDictionary);
+
   const [columns, setColumns] =
     useState<ColumnDef<NotionRecordProperty>[]>(defaultColumns);
+
   const sortedKey = sorts?.map((item) => `${item.id}_${item?.desc}`).join(';');
   const { data, isFetching } = useQuery({
-    queryKey: ['database', sortedKey],
-    queryFn: () => queryNotionDatabase({ sorts }),
+    queryKey: ['database', sortedKey, filter],
+    queryFn: () => queryNotionDatabase({ sorts, filter }),
   });
 
-  useEffect(() => {
+  const onDictionaryUpdate = (_data: Array<NotionRecordProperty>) => {
+    setDictionary((prev) => {
+      if (!Array.isArray(_data)) {
+        return prev;
+      }
+      if (prev !== defaultDictionary) return prev;
+      // prevent reset dictionary when data is changed
+      const coppiedData = [..._data];
+      return getDeepDataSource(coppiedData);
+    });
+  };
+
+  const onColumnsUpdate = (_data: Array<NotionRecordProperty>) => {
     setColumns((prev) => {
       // prevent reset columns when data is changed
-      if (!Array.isArray(data)) {
+      if (!Array.isArray(_data)) {
         return prev;
       }
       if (prev !== defaultColumns) return prev;
       // cache the old data
-      const coppiedData = [...data];
+      const coppiedData = [..._data];
       const item = { ...coppiedData?.[0]?.properties };
 
       const keys = Object.keys(item || {}) || [];
@@ -73,6 +82,11 @@ const useData = ({ sorts }: UseDataParams): UseDataValue => {
         // ...getColumnsAdditionalConfig(item?.[key]),
       }));
     });
+  };
+
+  useEffect(() => {
+    onDictionaryUpdate(data);
+    onColumnsUpdate(data);
   }, [data]);
 
   const dataList = useMemo(
@@ -84,6 +98,7 @@ const useData = ({ sorts }: UseDataParams): UseDataValue => {
     columns,
     data: dataList,
     isLoading: isFetching,
+    dictionary,
   };
 };
 

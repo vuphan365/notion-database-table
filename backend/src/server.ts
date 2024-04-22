@@ -30,10 +30,19 @@ process.on('uncaughtException', function (err) {
 const getNotionDatabase = async (req: http.IncomingMessage) => {
   // const { sort, dir } = req.query;
   // Query the database and wait for the result
-  const { sort, dir } = url.parse(req.url as string, true).query;
+  const {
+    sort,
+    dir,
+    filter: filterStr,
+  } = url.parse(req.url as string, true).query;
+  let filter = null;
+  if (filterStr) {
+    filter = JSON.parse(decodeURIComponent(filterStr as string));
+  }
   const query = await notion.databases.query({
     database_id: notionDatabaseId,
     sorts: sort ? [{ property: sort as string, direction: dir as any }] : [],
+    ...(filter ? { filter } : {}),
   });
   return query.results;
 };

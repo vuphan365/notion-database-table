@@ -70,3 +70,19 @@ export interface CheckboxProperty extends Property {
   type: 'checkbox';
   checkbox: boolean;
 }
+
+export type NotionDictionary = Record<
+  string,
+  { type: Property['type']; dataSource: Array<string | boolean> }
+>;
+
+type NotionOperation = 'equal' | 'does_not_equal' | 'contains';
+
+export type NotionFilterOperation = {
+  preOperation: 'and' | 'or';
+  name?: string;
+  operation?: NotionOperation;
+  value?: any;
+  subOperations?: Array<NotionFilterOperation>;
+  type?: Property['type'];
+};
