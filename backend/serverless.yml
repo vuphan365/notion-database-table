@@ -1,0 +1,29 @@
+service: notion-backend-service
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  memorySize: 512
+  timeout: 15
+  stage: prod
+  region: ap-southeast-1
+functions:
+  main:
+    handler: dist/handler.main
+    events:
+      - http: ANY /{proxy+}
+      - http: ANY /
+    environment:
+      NODE_ENV: production
+    package:
+      include:
+        - 'dist/**/*'
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+package:
+  individually: true
+  exclude:
+    - ./**

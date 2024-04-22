@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import http from 'http';
 import url from 'url';
 import { Client, LogLevel } from '@notionhq/client';
@@ -47,7 +45,7 @@ const getNotionDatabase = async (req: http.IncomingMessage) => {
   return query.results;
 };
 // Require an async function here to support await with the DB query
-const server = http.createServer(async (req, res) => {
+export const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   const urlData = url.parse(req.url as string, true);
   // console.log('req', req);
