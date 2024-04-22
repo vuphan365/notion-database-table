@@ -1,6 +1,9 @@
 # Notion Database UI
-This project aims to show read-only Notion database, which allow to sort, reorder columns and do advanced filters (and, or)
-There are an CI/CD flow, wrote in Github Action to automatically test and deploy its sub-systems:
+- This project aims to show dynamic Notion database, which allow to sort, reorder columns and do advanced filters (and, or).
+- Database source (allow to edit): https://earthy-zipper-7cf.notion.site/2525bc5e7ee941118a95cdfb6ad4431c?v=a1ebe64ba9d64f35bb3fbd6169747e39&pvs=25
+  - Support types: `rich_text`, `title`, `multi_select`, `select`, `status`, `date`, `number`, `checkbox`
+  - Other types will be implement in future
+- The Github CI/CD flow allow to automatically test and deploy its sub-systems
 ## Deployment
  - **Frontend**:
 	 - Testing
@@ -17,20 +20,20 @@ git clone https://github.com/vuphan365/notion-database-table.git
 ```
 ### Start Backend
 ```bash
-  cd backend
-  touch .env
-  echo NOTION_SECRET="YOUR_NOTION_SECRET" >> .env
-  echo NOTION_DATABASE_ID="YOUR_NOTION_DATABASE_ID" >> .env
-  yarn
-  yarn run start // Backend will run on localhost:8000
+cd backend
+touch .env
+echo NOTION_SECRET="YOUR_NOTION_SECRET" >> .env
+echo NOTION_DATABASE_ID="YOUR_NOTION_DATABASE_ID" >> .env
+yarn
+yarn run start // Backend will run on localhost:8000
 ```
 ### Start Frontend
 ```bash
- cd ../frontend
-  touch .env
-  echo VITE_API_HOST="http://localhost:8000" >> .env
-  yarn
-  yarn run dev// Frontend will run on http://localhost:5173
+cd ../frontend
+touch .env
+echo VITE_API_HOST="http://localhost:8000" >> .env
+yarn
+yarn run dev// Frontend will run on http://localhost:5173
 ```
 ## Features
 
