@@ -21,15 +21,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Configure amplify
-        uses: ambientlight/amplify-cli-action@0.3.0
-        with:
-          amplify_command: configure
-          amplify_env: prod
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
 
       - name: Install Dependencies
         working-directory: ./frontend
@@ -44,13 +35,14 @@ jobs:
           ls -a
           cd ./frontend && ls -a
       - name: Deploy
-        uses: ambientlight/amplify-cli-action@0.3.0
-
+        uses: jeanlescure/react-deploy-to-s3-action@main
         with:
-          amplify_command: publish
-          amplify_env: prod
-          project_dir: ./frontend/dist
+          args: --acl public-read --follow-symlinks --delete
         env:
+          NODE_ENV: production
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
+          AWS_REGION: ap-southeast-1
+          SOURCE_DIR: frontend/dist
+          VITE_API_HOST: ${{ env.VITE_API_HOST }}
