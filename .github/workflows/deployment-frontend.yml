@@ -32,9 +32,9 @@ jobs:
       - name: Run build
         run: |
           touch .env
-          echo VITE_API_HOST=${{ secrets.VITE_API_HOST }} >> .env
+          echo VITE_API_HOST=${{ env.VITE_API_HOST }} >> .env
           cat .env
           yarn run build
       - name: Deploy
         run: |
-          aws s3 sync dist s3://${{ env.AWS_S3_BUCKET }}
+          aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET }}
