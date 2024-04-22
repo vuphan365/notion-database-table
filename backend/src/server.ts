@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 import http from 'http';
 import url from 'url';
 import { Client, LogLevel } from '@notionhq/client';

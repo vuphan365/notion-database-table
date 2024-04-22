@@ -21,9 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install Dependencies
+      - name: Install Dependencies and Build
         working-directory: ./backend
-        run: yarn
+        run: yarn && yarn run build
       - name: Run deploy
         working-directory: ./backend
         run: yarn run deploy
