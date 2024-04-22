@@ -31,9 +31,9 @@ jobs:
         run: yarn run test
       - name: Run build
         run: |
-          touch .env
-          echo VITE_API_HOST=${{ env.VITE_API_HOST }} >> .env
-          cat .env
+          touch .env.production
+          echo VITE_API_HOST=${{ env.VITE_API_HOST }} >> .env.production
+          cat .env.production
           yarn run build
       - name: Deploy
         run: |
