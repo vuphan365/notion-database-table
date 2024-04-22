@@ -12,6 +12,7 @@ interface NotionFilterModalProps {
   dictionary: NotionDictionary;
   onSubmit: (value: string) => void;
   isOpen: boolean;
+  defaultValues: FormValues;
 }
 
 const NotionFilterModal = ({
@@ -19,15 +20,10 @@ const NotionFilterModal = ({
   dictionary,
   onSubmit,
   isOpen,
+  defaultValues,
 }: NotionFilterModalProps) => {
   const methods = useForm<FormValues>({
-    defaultValues: {
-      filter: [
-        {
-          ...defaultFilterOperation,
-        },
-      ],
-    },
+    defaultValues,
   });
 
   const fieldArray = useFieldArray({
@@ -38,7 +34,7 @@ const NotionFilterModal = ({
   const onAddFilter: React.MouseEventHandler<HTMLButtonElement> = (evt) => {
     evt.preventDefault();
     fieldArray.append({
-      ...defaultFilterOperation,
+      ...Object.assign({}, defaultFilterOperation),
       preOperation:
         (methods.watch(
           // @ts-ignore
@@ -94,20 +90,20 @@ const NotionFilterModal = ({
                   <Button
                     variant="danger"
                     disabled={!isDirty}
+                    testid="notion-filter-reset"
                     onClick={() => {
-                      methods.reset({
-                        filter: [
-                          {
-                            ...defaultFilterOperation,
-                          },
-                        ],
-                      });
+                      methods.reset(defaultValues);
                       onSubmit('');
                     }}
                   >
                     Reset
                   </Button>
-                  <Button variant="primary" disabled={!isValid} type="submit">
+                  <Button
+                    variant="primary"
+                    disabled={!isValid}
+                    type="submit"
+                    testid="notion-filter-submit"
+                  >
                     Filter
                   </Button>
                 </div>

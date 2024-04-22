@@ -8,6 +8,7 @@ interface SelectProps {
   className?: string;
   isDisabledEmpty?: boolean;
   disabled?: boolean;
+  testid?: string;
 }
 
 const Select = ({
@@ -17,6 +18,7 @@ const Select = ({
   className,
   isDisabledEmpty,
   disabled,
+  testid,
 }: SelectProps) => {
   return (
     <select
@@ -25,6 +27,7 @@ const Select = ({
         'notion-property-select',
         className
       )}
+      data-testid={testid}
       value={value}
       onChange={onChange}
       disabled={disabled}

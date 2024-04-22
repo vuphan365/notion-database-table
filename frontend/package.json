@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "jest",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-table": "8.16.0",
+    "@types/jest": "^29.5.12",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
@@ -23,7 +25,13 @@
     "vite-svg-loader": "^5.1.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.22.10",
+    "@babel/preset-react": "7.22.5",
+    "@babel/preset-typescript": "7.22.5",
     "@notionhq/client": "^2.2.15",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^15.0.2",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -34,11 +42,28 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "jest": "28",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-tsconfig-paths": "^4.3.2"
+  },
+  "jest": {
+    "resetMocks": true,
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTest.ts"
+    ],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "testRunner": "jest-circus/runner",
+    "transformIgnorePatterns": [],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "main": "postcss.config.js",
   "author": "",

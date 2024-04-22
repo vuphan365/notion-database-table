@@ -7,6 +7,7 @@ interface ButtonProps extends React.PropsWithChildren {
   disabled?: boolean;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   className?: string;
+  testid?: string;
 }
 
 const Button = ({
@@ -16,6 +17,7 @@ const Button = ({
   children,
   type,
   className,
+  testid,
 }: ButtonProps) => (
   <button
     className={cl(
@@ -24,6 +26,7 @@ const Button = ({
       { 'bg-red-500  disabled:bg-red-100': variant === 'danger' },
       className
     )}
+    data-testid={testid}
     onClick={onClick}
     type={type}
     disabled={disabled}

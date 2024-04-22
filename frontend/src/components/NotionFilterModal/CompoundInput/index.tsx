@@ -61,7 +61,10 @@ const CompoundInput = ({
   });
 
   return (
-    <div className="flex gap-4 items-start">
+    <div
+      className="flex gap-4 items-start"
+      data-testid={`compound-input_${keyName}`}
+    >
       {isPrimary ? (
         <div className="w-[100px]">
           <NotionText value={[['Where']]} />
@@ -74,6 +77,7 @@ const CompoundInput = ({
           rules={{ required: true }}
           render={({ field: { value, onChange } }) => (
             <Select
+              testid={`compound_input_select_${keyName}.${index}.preOperation`}
               value={value}
               onChange={(evt) => {
                 const value = evt.target.value;
@@ -101,6 +105,7 @@ const CompoundInput = ({
             render={({ field: { value, onChange } }) => (
               <Select
                 value={value}
+                testid={`compound_input_select_${nameField}`}
                 onChange={(evt) => {
                   onChange(evt);
                   // @ts-ignore
@@ -126,6 +131,7 @@ const CompoundInput = ({
             render={({ field: { value, onChange } }) => (
               <Select
                 value={value}
+                testid={`compound_input_select_${operationField}`}
                 onChange={(evt) => {
                   onChange(evt);
                   // @ts-ignore
@@ -150,6 +156,7 @@ const CompoundInput = ({
                 return (
                   <Select
                     value={value}
+                    testid={`compound_input_select_${keyName}.${index}.value`}
                     onChange={onChange}
                     dataSource={valueDataSource as string[]}
                     className="w-[200px]"
@@ -160,6 +167,7 @@ const CompoundInput = ({
               return (
                 <Input
                   value={value}
+                  testid={`compound_input_input_${keyName}.${index}.value`}
                   onChange={onChange}
                   className="w-[200px]"
                   disabled={disabled}
@@ -168,7 +176,11 @@ const CompoundInput = ({
             }}
           />
           {!isPrimary && (
-            <Button variant="danger" onClick={onRemove}>
+            <Button
+              variant="danger"
+              onClick={onRemove}
+              testid={`compound_input_${keyName}.${index}.remove-btn`}
+            >
               <DeleteIcon />
             </Button>
           )}
@@ -191,9 +203,10 @@ const CompoundInput = ({
         {!isPrimary && currentLevel < MAX_LEVEL && (
           <Button
             variant="primary"
+            testid={`compound-input_${keyName}.${index}.add-filter`}
             onClick={() => {
               subOperations.append({
-                ...defaultFilterOperation,
+                ...Object.assign({}, defaultFilterOperation),
                 preOperation: watch(
                   // @ts-ignore
                   `${keyName}.${index}.subOperations.${0}.preOperation`

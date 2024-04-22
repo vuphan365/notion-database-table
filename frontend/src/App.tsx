@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SortingState, Updater } from '@tanstack/react-table';
 
 import BaseTable from '@/components/Table';
 import useData from '@/hooks/useData';
 import { NotionRecordProperty } from '@/types/notion';
 import NotionFilterModal from '@/components/NotionFilterModal';
+import { defaultFilterOperation } from '@/components/NotionFilterModal/CompoundInput';
 import Button from './components/Button';
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
         loading={isLoading}
       />
       <NotionFilterModal
+        defaultValues={{
+          filter: [Object.assign({}, defaultFilterOperation)],
+        }}
         isOpen={isOpen}
         onClose={onToggleOpenFilter}
         dictionary={dictionary}
