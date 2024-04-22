@@ -21,6 +21,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+      - name: Configure amplify
+        uses: ambientlight/amplify-cli-action@0.3.0
+        with:
+          amplify_command: configure
+          amplify_env: prod
+          project_dir: frontend/dist
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
       - name: Install Dependencies
         working-directory: ./frontend
         run: yarn
@@ -29,7 +40,7 @@ jobs:
         run: |
           yarn run test
           yarn run build
-      - name: deploy
+      - name: Deploy
         uses: ambientlight/amplify-cli-action@0.3.0
 
         with:
