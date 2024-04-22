@@ -21,7 +21,7 @@ const Button = ({
 }: ButtonProps) => (
   <button
     className={cl(
-      ' px-4 py-1 rounded text-white disabled:bg-blue-100',
+      ' px-6 py-1 rounded text-white disabled:bg-blue-100',
       { 'bg-blue-600  disabled:bg-blue-100': variant === 'primary' },
       { 'bg-red-500  disabled:bg-red-100': variant === 'danger' },
       className

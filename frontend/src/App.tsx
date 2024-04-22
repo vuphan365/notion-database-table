@@ -7,6 +7,7 @@ import { NotionRecordProperty } from '@/types/notion';
 import NotionFilterModal from '@/components/NotionFilterModal';
 import { defaultFilterOperation } from '@/components/NotionFilterModal/CompoundInput';
 import Button from './components/Button';
+import NotionText from './components/NotionProperty/NotionText';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,10 @@ function App() {
 
   return (
     <div className="w-full p-16 flex flex-col gap-4">
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-between">
+        <div className="text-3xl font-bold">
+          <NotionText value={[['Notion Database']]} />
+        </div>
         <Button
           onClick={onToggleOpenFilter}
           disabled={isLoading}

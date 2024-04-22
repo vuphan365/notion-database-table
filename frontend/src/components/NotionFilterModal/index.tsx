@@ -59,10 +59,7 @@ const NotionFilterModal = ({
       <>
         {createPortal(
           <Modal title="Advanced Filter" onClose={onClose}>
-            <form
-              className="w-fit text-sm"
-              onSubmit={methods.handleSubmit(_onSubmit)}
-            >
+            <form className="w-fit" onSubmit={methods.handleSubmit(_onSubmit)}>
               <FormProvider {...methods}>
                 <div className="flex flex-col gap-y-4">
                   {fieldArray?.fields?.map((field, index) => (
