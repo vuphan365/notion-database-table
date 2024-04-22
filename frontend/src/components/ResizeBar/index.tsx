@@ -1,4 +1,4 @@
-import { Header, ColumnResizeDirection } from '@tanstack/react-table';
+import { Header } from '@tanstack/react-table';
 import { motion } from 'framer-motion';
 
 interface ResizeBarProps<T> {

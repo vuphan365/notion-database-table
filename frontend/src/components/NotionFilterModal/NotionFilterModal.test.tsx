@@ -1,20 +1,8 @@
-import { FormProvider, useForm, useFieldArray } from 'react-hook-form';
-import {
-  act,
-  render,
-  queries,
-  waitFor,
-  within,
-  screen,
-  queryByTestId,
-  getByTestId,
-} from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { NotionDictionary, NotionFilterOperation } from '@/types/notion';
+import { NotionFilterOperation } from '@/types/notion';
 import { defaultFilterOperation } from './CompoundInput';
-import { FormValues } from '../types';
 import dictionary from '@/mocks/dictionary';
-import { OperationByType } from '@/utils/filter';
 import NotionFilterModal from './index';
 
 describe('NotionFilterModal', () => {

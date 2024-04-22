@@ -6,7 +6,7 @@ import NotionProperty from '@/components/NotionProperty';
 import { NotionRecordProperty, NotionDictionary } from '@/types/notion';
 import { useMemo } from 'react';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import { OperationByType, getDeepDataSource } from '@/utils/filter';
+import { getDeepDataSource } from '@/utils/filter';
 
 interface UseDataValue {
   columns: ColumnDef<NotionRecordProperty>[];

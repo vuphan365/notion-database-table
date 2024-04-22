@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Decoration } from 'notion-types';
-import { formatDate } from 'notion-utils';
 
 const NotionText: React.FC<{
   value: Decoration[];

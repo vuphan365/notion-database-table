@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
+    "start": "tsc && node dist/src/server.js",
     "build": "rm -rf dist && esbuild handler.ts --bundle --platform=node --outdir=dist --allow-overwrite",
     "deploy": "serverless deploy",
     "package": "npm run build && serverless package",
