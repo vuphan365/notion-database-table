@@ -1,13 +1,13 @@
 # Notion Database UI
 This project aims to show read-only Notion database, which allow to sort, reorder columns and do advanced filters (and, or)
 There are an CI/CD flow, wrote in Github Action to automatically test and deploy its sub-systems:
-
- - Frontend:
+## Deployment
+ - **Frontend**:
 	 - Testing
 	 - Build
 	 - Deploy to AWS S3
 	 - Preview URL:  http://notion-database-frontend.s3-website-ap-southeast-1.amazonaws.com/
- - Backend
+ - **Backend**
 	 - Package and deploy to AWS Lambda
 	 - Preview URL: https://xyvmx7ynw4.execute-api.ap-southeast-1.amazonaws.com/prod/database
 ## Development Setup
